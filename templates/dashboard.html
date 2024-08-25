@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>whyType</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@40,400,0,0" />
+    
+    <!-- Local Stylesheet -->
+    <link rel="stylesheet" href="static/css/styles.css">
+    
+</head>
+<body>
+    <div class="nav">
+        <div class="nav-left">
+            <div class="user-info">
+                <span class="material-symbols-outlined logo" style="font-size: 4rem;">
+                    keyboard_keys 
+                    <span class="logo-text">whyType</span>
+                </span>
+            </div>
+        </div>
+        <div class="nav-right">
+            <div class="user-info">
+                <span class="user-name">{{ cuser.username }}      
+                    <span class="material-symbols-outlined">account_circle</span>          
+                    <div class="dropdown-menu">
+                        <a href="">
+                            <span class="material-symbols-outlined">person</span>User profile</a>
+                        <a href="">
+                            <span class="material-symbols-outlined">settings</span>Settings</a>
+                        <a href="/logout">
+                            <span class="material-symbols-outlined">logout</span>Logout</a>
+                    </div>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div class="main">
+        <!-- <div id="book-selection">
+            <p>Choose a Book:</p>
+            <div id="book-details">
+                <p id="title">Select a Book</p>
+                <p id="author"></p>
+            </div>
+        </div> -->
+        <p id="target-sentence"></p><br>
+        <p id="sentence-display"></p>
+    </div>
+
+    <div class="footer">
+            <div id="book-info">
+                <div id="title"></div>
+                <div id="author"></div>
+            </div>   
+            <div class="zen-logo">
+                <span id="zen" class="material-symbols-outlined">
+                    do_not_disturb_on
+                    </span>
+            </div >
+            <div id="book-details">
+                <span id="book-logo" class="material-symbols-outlined icon-hover">
+                    <span class="book_2">book_2</span>
+                    <span class="book_5">book_5</span>
+                  </span>
+            
+            </div>
+    </div>
+<!-- Book Menu (Modal) -->
+<div id="background-blur"></div>
+
+<div id="bookModal" class="modal-book">
+    <span class="close">&times;</span>
+
+    <div id="modal-content">
+        <ul id="book-list">
+            <li class="book-option" data-url="static/assets/don.txt">
+                <img src="static/assets/images/books/don_quxiote.jpg" alt="donQuxiote" >
+            </li>
+            <li class="book-option" data-url="static/assets/nanking.txt">
+                <img src="static/assets/images/books/nanking.jpg" alt="rapeNanking" >
+            </li>
+            <li class="book-option" data-url="static/assets/1984.txt">
+                <img src="static/assets/images/books/1984.jpg" alt="ninety" >
+            </li>
+            <li class="book-option" data-url="static/assets/satre.txt">
+                <img src="static/assets/images/books/satre1.jpg" alt="satre" >
+            </li>
+            <li class="book-option" data-url="static/assets/foucault.txt">
+                <img src="static/assets/images/books/foucault.jpg" alt="satre" >
+            </li>
+        </ul>
+    </div>
+
+</div>
+
+    <script src="static/js/gameMechanics.js"></script>
+</body>
+</html>

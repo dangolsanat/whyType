@@ -1,0 +1,501 @@
+:root {
+    --main-font: 'Roboto', monospace;
+    --main-font-size: 16px;
+    --main-line-height: 1.6;
+    --main-color: #333;
+}
+
+body {
+    font-family: var(--main-font);
+    background-color: rgb(40, 40, 40);
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin: 0;
+    height: 100vh;
+    overflow: auto; /* Allow scrolling if content overflows */
+    height: 100vh;
+}
+
+
+
+body h1{
+    font-family: Roboto Mono;
+}
+
+h1{
+    color: grey;
+}
+
+/* nav items */
+
+.nav{
+    display: flex;
+    width: 90%;
+    position: relative;
+    top: 5%;
+    justify-content: space-between;
+    padding: 1rem;
+    margin-bottom: 1vh;
+    
+}
+
+.nav-left, .nav-right {
+    display: flex;
+    align-items: center;
+}
+
+.user-name{
+    font-family: Roboto, monospace;
+    font-size: .8rem;
+    color: grey;
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+.user-name:hover{
+    color:white;
+    .material-symbols-outlined{
+        color: rgb(190, 190, 190);
+    }
+}
+
+
+.user-info {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.logo{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.logo:hover{
+    color:#6370ff;
+}
+
+.logo-text{
+    line-height: 1rem;
+    font-size: 1.6rem; 
+    font-family: "Space Grotesk", sans-serif  ;
+    position: relative;
+    top: -6px;
+    color: grey;
+    font-weight:700;
+}
+
+
+
+.dropdown-menu {
+    position: absolute; /* Position it absolutely within the user-info container */
+    top: 100%; /* Position it below the user-info container */
+    right: 0; /* Align it to the right of the user-info container */
+    background-color: rgb(68, 68, 68); /* Background color of the dropdown */
+    border-radius: 4px; /* Rounded corners for the dropdown */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.36); /* Shadow for the dropdown */
+    z-index: 1000; /* Ensure it appears above other content */
+    min-width: 150px; /* Optional minimum width */
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+
+
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .3s ease, visibility .3s ease;
+}
+
+.user-info:hover .dropdown-menu {
+    display: block; /* Show the dropdown menu on hover */
+    opacity: 1;
+    visibility: visible;
+}
+
+
+
+.dropdown-menu p {
+    margin: 0;
+    padding: 0;
+    font-family: var(--main-font, 'Roboto', sans-serif);
+}
+.dropdown-menu a {
+    display: flex; /* Make links block-level elements for better spacing */
+    padding: 8px 16px; /* Add padding inside each link */
+    color: #ffffff; /* Text color */
+    text-decoration: none; /* Remove underline */
+    font-size: 0.6rem;
+    gap: 6px;
+
+}
+
+.dropdown-menu a:hover {
+
+    background-color: rgb(177, 177, 177); /* Background color on hover */
+    color: black;
+    .material-symbols-outlined{
+        color: black;
+    };
+
+}
+
+
+.dropdown-menu span {
+    font-size: .9rem;
+    color: rgb(255, 255, 255);
+}
+
+
+
+.material-symbols-outlined{
+    font-size: 1.5rem;
+    color: rgb(100, 100, 100);
+}
+
+
+
+
+/* main items */
+
+.main {
+    position: relative;
+    max-width: 60%;
+    margin: 20px;
+    top:10rem;
+    display: flex;
+    flex-direction: column;
+    margin: 1vh 0; /* Adjust the spacing between elements */
+    height:40%;
+    overflow: scroll;
+}
+
+
+.main p {
+
+    color: gray;
+    font-family: Roboto Mono;
+    margin: 0; /* Remove default margin to avoid extra spacing */
+    line-height: 1.6; /* Improve readability by increasing line height */
+}
+
+
+
+#title{
+    margin-bottom: 0;
+    padding-top: none;
+    font-size: 0.8rem;
+    font-weight: 550;
+}
+
+#author{
+    margin-top: 0;
+    padding-top: none;
+    font-size: .6rem;
+}
+
+#sentence-display {
+    white-space: pre-wrap;
+    overflow-wrap: break-word; /* Ensure long words break and wrap */
+    word-break: break-word; /* Ensure long words break and wrap */
+    width: 100%; /* Ensure it takes full width of its container */
+    font-family: 'Roboto Mono', monospace; /* Consistent font */
+    line-height: 1.5; /* Adjust line height for better spacing */
+    font-size: calc(1.5rem + 0.5vw);
+    box-sizing: border-box; /* Include padding and border in element's total width and height */
+}
+
+
+.correct {
+    color: rgb(220, 220, 220);
+}
+
+.incorrect {
+    color: rgb(229, 101, 50);
+    font-weight: bold;
+    text-decoration: underline;
+    animation: shake 0.1s ease;
+    display:inline-block; /* Apply the shake animation */
+}
+
+.current {
+    text-decoration: underline; /* Highlight the current character */
+    font-weight: bold;
+    /* color: rgb(255, 255, 255); */
+    color: #6370ff;
+}
+
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-2px); }
+    50% { transform: translateX(2px); }
+    75% { transform: translateX(-2px); }
+    100% { transform: translateX(0); }
+}
+
+
+/* styles.css */
+
+/* Base styling for progress display */
+#progress-container {
+    font-family: monospace;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+/* Default style for other characters */
+#progress-container span {
+    display: inline-block;
+    margin: 0 2px;
+}
+
+
+/* modal styling */
+
+
+/* Modal container styling */
+.modal-login {
+    display: none; /* Hidden by default */
+    z-index: 2; /* Sit on top */
+    left: 0;
+    top: 0;
+    height: 100%; /* Full height */
+    overflow: scroll;
+    margin-top: -100px;
+}
+
+.modal-book {
+    display: none; /* Hidden by default */
+    z-index: 2; /* Sit on top */
+    left: 0;
+    top: 0;
+    height: 80%; /* Full height */
+    overflow: scroll;
+    position: absolute;
+    margin-top: 50px;
+    margin-left: 22%;
+    margin-right: 21%;
+    overflow: scroll;
+}
+
+/* Modal content styling */
+.modal-content {
+    background-color: #90909027; /* Light background */
+    margin: 5% auto; /* Center the modal */
+    padding: 2vh 1vw; 
+    border-radius: 5px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow for better visibility */
+    opacity: 0; /* Start as invisible */
+    transition: opacity 0.3s ease; /* Fade-in transition */
+    color: grey;
+    display: flex;
+    max-height: 90vh;
+    width: 12vw;
+    max-width: 80%; 
+    height:auto;
+}
+
+#login label, #signup label{
+    font-size: .8rem;
+}
+
+#login input, #signup input{
+    border: none;
+    border-bottom: 1px solid #cccccc27; /* Only a bottom border */
+    padding: 8px 0px; /* Padding inside the input box */
+    margin: 0; /* No margin */
+    margin-bottom: 10px;
+    width: 100%; /* Full width or adjust as needed */
+    height: auto; /* Ensure height is auto to fit content */
+    overflow: hidden; /* Hide any overflow */
+    white-space: nowrap; /* Prevent text wrapping */
+    background-color: #007bff00;
+    color: grey;
+    font-family: roboto, monospace;
+    font-size: 1rem;
+}
+
+
+
+#login input:hover, #signup input:hover{
+    outline: none; /* Remove default outline */
+    border-color: #b0b0b0; /* Change border color on focus */
+}
+
+#switch-to-login, #switch-to-signup, #login button, #signup button{
+ background-color: grey;
+ border: none;
+ border-radius: 4px;
+ width: auto;
+ padding: 6px 12px 6px 12px;
+ font-family: roboto, monospace;
+ font-size: 1rem;
+}
+
+#switch-to-login:hover, #switch-to-signup:hover, #login button:hover, #signup button:hover{
+    background-color: #c2c2c2;
+}
+
+
+
+
+
+/* Show modal content with fade-in */
+.modal-login.show .modal-content {
+    opacity: 1; /* Make modal content visible */
+}
+
+/* Close button styling */
+.close {
+    color: grey;
+    float: right;
+    font-size: 30px;
+    font-weight: bold;
+    cursor: pointer;
+    position: fixed;
+    top: 2%;
+    right: 2%;
+}
+
+/* Close button hover and focus effects */
+.close:hover,
+.close:focus {
+    color: rgb(193, 193, 193);
+    text-decoration: none;
+}
+
+/* Blur background styling */
+.blur-background {
+    filter: blur(10px); /* Adjust blur intensity as needed */
+    transition: filter 0.02s ease-out; /* Smooth transition for the blur effect */
+}
+
+/* Show blur effect */
+.modal-login.show ~ .content {
+    filter: blur(10px); /* Apply blur to content */
+}
+
+
+
+/* Basic styles for the book list */
+#book-list {
+    list-style-type: none;
+    padding: 0 0 10vh 0;
+    color: rgb(150, 150, 150);
+    display: flex;
+    flex-direction: row;
+    overflow-y: auto; /* Enable vertical scrolling */
+    overflow-x: hidden;
+    flex-wrap: wrap; /* Allow items to wrap to a new line if necessary */
+    justify-content: flex-start;
+    max-height: calc(100vh - 120px); /* Adjust height to allow scrolling */
+}
+
+
+#book-list li{
+    margin-right: 10px;
+    height: 15rem;
+    width: 10rem;
+    
+}
+
+#book-list img{
+    height: 15rem;
+    width: 100%;
+    filter: contrast(70%) brightness(70%) saturate(70%) grayscale(50%);
+    transition: filter 0.3s ease;
+
+}
+#book-list img:hover{
+    filter: contrast(90%) brightness(90%) saturate(95%);
+}
+
+.book-option {
+    padding: 10px;
+    cursor: pointer;
+    width: max-content;
+    position: relative;
+    border-radius: 10px;
+}
+
+.book-option:last-child {
+    border-bottom: none; /* Remove border for the last option */
+}
+
+.book-option:hover {
+    background-color: #99999918;
+    color: rgb(200, 200, 200);
+}
+
+
+.icon-hover {
+    position: relative;
+  }
+  
+  .book_2, .book_5 {
+    display: block; /* Ensure both elements are block-level for proper positioning */
+  }
+  
+  .book_5 {
+    display: none; /* Hide book_5 by default */
+  }
+  
+  .icon-hover:hover .book_2 {
+    display: none; /* Hide book_2 when hovered */
+  }
+  
+  .icon-hover:hover .book_5 {
+    display: block; /* Show book_5 when hovered */
+    color: rgb(200, 200, 200);
+  }
+  .footer {
+    position: absolute;
+    bottom: 0;
+    width: 90%;
+    display: flex;
+    align-items: center; /* Center content vertically */
+    padding: 5vh 0;
+    justify-content: space-between; /* Space out the child elements */
+}
+
+.footer p {
+    color: grey;
+}
+
+#book-info {
+    color: grey;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Align text to the left */
+    justify-content: center; /* Center content vertically */
+}
+
+#book-info:hover {
+    color: white;
+}
+
+#book-details {
+    color: white;
+    display: flex;
+    align-items: center; /* Center content vertically */
+    justify-content: center; /* Center content horizontally */
+}
+
+#book-logo {
+    font-size: 1.8rem;
+}
+
+.zen-logo{
+    display: flex;
+    margin-left: -80px;
+}
+#zen{
+    font-size: 1.8rem;
+    padding-left: 20px;
+    padding-right: 40px;
+
+}
+#zen:hover{
+    color: rgb(200, 200, 200);
+}
