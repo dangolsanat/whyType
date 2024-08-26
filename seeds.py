@@ -1,47 +1,69 @@
-from models import db, Book
 from app import app
+from models import db, User, Progress
+from werkzeug.security import generate_password_hash
+import pickle
 
-# Drop all existing data and create new tables
+# Connect to the database
 with app.app_context():
+    # Drop all existing tables and create new ones
     db.drop_all()
     db.create_all()
 
-    # Create book entries
-    books = [
-        Book(
-            title="Don Quixote",
-            author="Miguel de Cervantes",
-            text_file="static/assets/don.txt",
-            image_url="static/assets/images/books/don_quxiote.jpg"
-        ),
-        Book(
-            title="The Rape of Nanking",
-            author="Iris Chang",
-            text_file="static/assets/nanking.txt",
-            image_url="static/assets/images/books/nanking.jpg"
-        ),
-        Book(
-            title="1984",
-            author="George Orwell",
-            text_file="static/assets/1984.txt",
-            image_url="static/assets/images/books/1984.jpg"
-        ),
-        Book(
-            title="Being and Nothingness",
-            author="Jean-Paul Sartre",
-            text_file="static/assets/satre.txt",
-            image_url="static/assets/images/books/satre1.jpg"
-        ),
-        Book(
-            title="Discipline and Punish",
-            author="Michel Foucault",
-            text_file="static/assets/foucault.txt",
-            image_url="static/assets/images/books/foucault.jpg"
-        )
-    ]
+    # Create default users
+    user1 = User(
+        username='user1',
+        password=generate_password_hash('password1', method='sha256')
+    )
+    
+    user2 = User(
+        username='user2',
+        password=generate_password_hash('password2', method='sha256')
+    )
 
-    # Add books to the session and commit
-    db.session.add_all(books)
+    db.session.add(user1)
+    db.session.add(user2)
     db.session.commit()
 
-    print("Database seeded with 5 books.")
+    # Create default progress for users
+    # Example data
+    progress_data = [
+        {
+            'user_id': user1.id,
+            'paragraph_index': 0,
+            'sentence_index': 0,
+            'char_index': 5,
+            'user_progress': pickle.dumps(['correct', 'correct', 'correct', 'correct', 'correct']),
+            'book': 'don'
+        },
+        {
+            'user_id': user1.id,
+            'paragraph_index': 1,
+            'sentence_index': 1,
+            'char_index': 10,
+            'user_progress': pickle.dumps(['correct'] * 10),
+            'book': 'nanking'
+        },
+        {
+            'user_id': user2.id,
+            'paragraph_index': 0,
+            'sentence_index': 0,
+            'char_index': 3,
+            'user_progress': pickle.dumps(['correct'] * 3),
+            'book': 'don'
+        }
+    ]
+
+    for prog in progress_data:
+        progress = Progress(
+            user_id=prog['user_id'],
+            paragraph_index=prog['paragraph_index'],
+            sentence_index=prog['sentence_index'],
+            char_index=prog['char_index'],
+            user_progress=prog['user_progress'],
+            book=prog['book']
+        )
+        db.session.add(progress)
+
+    db.session.commit()
+
+    print("Database seeded successfully!")

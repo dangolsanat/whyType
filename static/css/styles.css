@@ -43,6 +43,7 @@ h1{
 .nav-left, .nav-right {
     display: flex;
     align-items: center;
+    gap: 50px;
 }
 
 .user-name{
@@ -100,7 +101,6 @@ h1{
     min-width: 150px; /* Optional minimum width */
     width: 100%;
     white-space: nowrap;
-    overflow: hidden;
 
 
     opacity: 0;
@@ -486,9 +486,17 @@ h1{
     font-size: 1.8rem;
 }
 
+
+.mid_menu{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+
+
 .zen-logo{
     display: flex;
-    margin-left: -80px;
 }
 #zen{
     font-size: 1.8rem;
@@ -498,4 +506,152 @@ h1{
 }
 #zen:hover{
     color: rgb(200, 200, 200);
+}
+
+#zen:hover::after{
+    color: rgb(200, 200, 200);
+}
+
+
+
+
+.volume-control{
+    color: #ffffff; /* Text color */
+    padding: 8px 16px;
+    font-size: 0.6rem;
+    overflow: hidden;
+    display: flex;
+    gap: 10px;
+}
+#volume-control {
+	position: relative;
+	height: 3px;
+	width: 100px;
+	background: #555;
+	border-radius: 1px;
+}
+
+
+/* Style for the player container */
+.player {
+    position: relative;
+    display: inline-block;
+}
+
+/* Style for the music note icon */
+.player .material-symbols-outlined {
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+
+
+/* Style for the dropdown menu */
+.music-drop-menu {
+    position: absolute;
+    top: 100%; /* Position below the music note */
+    right: 0;
+    background-color: rgb(68, 68, 68); /* Background color of the dropdown */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.36); /* Shadow for the dropdown */
+    border-radius: 4px;
+    min-width: 150px; /* Optional minimum width */
+    width: 100%;
+
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .3s ease, visibility .3s ease;
+}
+
+
+
+/* Show the dropdown menu on hover */
+.player:hover .music-drop-menu {
+    display: flex;
+    opacity: 1;
+    visibility: visible;
+    flex-direction: column;
+ }
+
+
+
+ .music-drop-menu div{
+    color: #ffffff; /* Text color */
+    padding: 6px 15px;
+    font-size: 0.6rem;
+    gap: 3px;
+    
+}
+.music-drop-menu div:hover{
+    background-color: rgb(190, 190, 190);
+    .material-symbols-outlined{
+        color: black;
+}
+}
+
+/* Style for play/pause icons */
+.play-pause {
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.6rem;
+    color: white;
+    overflow: hidden;
+    width: 80%;
+    display: flex;
+    align-items: center;
+ }
+
+
+.play-pause .material-symbols-outlined {
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+/* Style for waves icon */
+.music-drop-menu .material-symbols-outlined:last-child {
+    font-size: 0.9rem;
+    cursor: pointer;
+ }
+
+
+
+#music-note:hover{
+    color:white
+    .material-symbols-outlined{
+        color: rgb(255, 255, 255);
+    }
+}
+
+
+
+/* Container to hold the scrolling text */
+#scrolling-container {
+    width: 100%;             /* Full width of the container */
+    overflow: hidden;        /* Hide the text that goes outside the container */
+    position: relative;      /* Position relative to allow absolute positioning of the text */
+    box-sizing: border-box;
+    height: 20px;    
+    visibility:hidden;
+}
+#canvas{
+    display: none;
+     z-index: -1000;
+ }
+
+/* Scrolling text */
+.scrolling-text {
+    display: inline;   /* Keep the text on a single line */
+    white-space: nowrap;     /* Prevent text from wrapping */
+    position: absolute;      /* Position the text absolutely */
+    animation: scroll-left 10s linear infinite; /* Animate text from left to right */
+    top: 4px;
+}
+
+/* Keyframes for the scrolling animation */
+@keyframes scroll-left {
+    0% {
+        transform: translateX(100%);   /* Start from the right outside the container */
+    }
+    100% {
+        transform: translateX(-100%);  /* Move to the left outside the container */
+    }
 }

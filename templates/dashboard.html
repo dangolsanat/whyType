@@ -15,7 +15,9 @@
     <link rel="stylesheet" href="static/css/styles.css">
     
 </head>
+
 <body>
+    <canvas id="canvas" style="position: fixed;"></canvas>
     <div class="nav">
         <div class="nav-left">
             <div class="user-info">
@@ -26,6 +28,49 @@
             </div>
         </div>
         <div class="nav-right">
+            <div class="player">
+                <span id="music-note" class="material-symbols-outlined">
+                    music_note
+                </span>
+                <div class="music-drop-menu">
+                    
+                    <div class="play-pause" id="play-pause"> 
+                        <span id="play_logo" class="material-symbols-outlined">
+                            play_circle
+                        </span>
+                        <span id="pause_logo" class="material-symbols-outlined" style="display: none;">
+                            pause_circle
+                        </span>
+                            <span id="play-text">
+                                play
+                            </span>
+                            <span id="scrolling-container" >
+                                <span class="scrolling-text">
+                                    now playing: Kavinsky - night call instrumental (slowed)
+                                </span>
+                            </span>
+
+                    </div>
+
+                    <div class="volume-control" style="display: flex;align-items: center;">
+                        <span class="material-symbols-outlined">
+                            volume_up
+                        </span>
+                        <input type="range" id="volume-control" min="0" max="1" step="0.01" value="1">
+                    </div>
+                    
+                    <div>
+                        <span id="waves" class="material-symbols-outlined">
+                            waves
+                        </span>
+                    </div>
+
+                </div>
+            </div>
+
+
+
+            
             <div class="user-info">
                 <span class="user-name">{{ cuser.username }}      
                     <span class="material-symbols-outlined">account_circle</span>          
@@ -43,47 +88,123 @@
     </div>
 
     <div class="main">
+        <!-- <div id="book-selection">
+            <p>Choose a Book:</p>
+            <div id="book-details">
+                <p id="title">Select a Book</p>
+                <p id="author"></p>
+            </div>
+        </div> -->
         <p id="target-sentence"></p><br>
         <p id="sentence-display"></p>
-
-        <!-- Book Submission Form -->
     </div>
-
     <div class="footer">
-        <div id="book-info">
-            <div id="title"></div>
-            <div id="author"></div>
-        </div>   
-        <div class="zen-logo">
-            <span id="zen" class="material-symbols-outlined">
-                do_not_disturb_on
-            </span>
-        </div >
-        <div id="book-details">
-            <span id="book-logo" class="material-symbols-outlined icon-hover">
-                <span class="book_2">book_2</span>
-                <span class="book_5">book_5</span>
-            </span>
-        </div>
+            <div id="book-info">
+                <div id="title"></div>
+                <div id="author"></div>
+            </div>   
+            
+            <div class="mid_menu">
+
+                <div class="zen-logo">
+                    <span id="zen" class="material-symbols-outlined">
+                        do_not_disturb_on
+                        </span>
+                </div >
+            </div>
+
+
+
+            <div id="book-details">
+                <span id="book-logo" class="material-symbols-outlined icon-hover">
+                    <span class="book_2">book_2</span>
+                    <span class="book_5">book_5</span>
+                  </span>
+            
+            </div>
+    </div>
+<!-- Book Menu (Modal) -->
+<div id="background-blur"></div>
+
+
+<div id="bookModal" class="modal-book">
+    <span class="close">&times;</span>
+
+    <div id="modal-content">
+        <ul id="book-list">
+            <li class="book-option" data-url="static/assets/don.txt">
+                <img src="static/assets/images/books/don_quxiote.jpg" alt="donQuxiote" >
+            </li>
+            <li class="book-option" data-url="static/assets/nanking.txt">
+                <img src="static/assets/images/books/nanking.jpg" alt="rapeNanking" >
+            </li>
+            <li class="book-option" data-url="static/assets/1984.txt">
+                <img src="static/assets/images/books/1984.jpg" alt="ninety" >
+            </li>
+            <li class="book-option" data-url="static/assets/satre.txt">
+                <img src="static/assets/images/books/satre1.jpg" alt="satre" >
+            </li>
+            <li class="book-option" data-url="static/assets/foucault.txt">
+                <img src="static/assets/images/books/foucault.jpg" alt="satre" >
+            </li>
+        </ul>
     </div>
 
-    <!-- Book Menu (Modal) -->
-    <div id="background-blur"></div>
-
-    <div id="bookModal" class="modal-book">
-        <span class="close">&times;</span>
-
-        <div id="modal-content">
-            <ul id="book-list">
-            </ul>
-        </div>
-
-    </div>
+</div>
+<audio id="lofi-player" src="static/assets/music/nightCall.mp3"></audio>
 
     <script src="static/js/gameMechanics.js"></script>
+    <script src="static/js/features.js"></script>
     <script>
-        const userId = {{ user_id }};
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const numStars = 2000;
+        const stars = [];
+        let t = 0;
+
+        function initStars() {
+            for (let i = 0; i < numStars; i++) {
+                stars.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    radius: Math.random() * 1.0,
+                    color: 'white',
+                    speed: Math.random() * 0.08 + 0.04
+                });
+            }
+        }
+
+        function drawStars() {
+            ctx.fillStyle = 'black';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            stars.forEach(star => {
+                star.y += star.speed;
+                if (star.y > canvas.height) {
+                    star.y = 0;
+                    star.x = Math.random() * canvas.width;
+                }
+
+                ctx.beginPath();
+                ctx.arc(star.x, star.y, star.radius, 0, 2 * Math.PI);
+                ctx.fillStyle = star.color;
+                ctx.fill();
+            });
+        }
+
+        function animate() {
+
+            drawStars();
+
+            requestAnimationFrame(animate);
+        }
+
+        initStars();
+        animate();
     </script>
-    
 </body>
 </html>

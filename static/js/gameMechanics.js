@@ -6,9 +6,19 @@ const bookMenu = document.getElementById('book-menu'); // Modal or dropdown
 const bookList = document.getElementById('book-list'); // List within the modal or dropdown
 const backgroundBlur = document.getElementById('background-blur');
 
-// Book URLs - to be fetched dynamically
-let books = [];
-let textFileUrl = localStorage.getItem('currentBook') || '';
+const userId = "{{ cuser.id }}";
+
+
+// Book URLs
+const nanking = consolidateParagraphs('static/assets/nanking.txt');
+const don = consolidateParagraphs('static/assets/don.txt');
+const ninety = consolidateParagraphs('static/assets/1984.txt');
+const satre = consolidateParagraphs('static/assets/satre.txt');
+const foucault = consolidateParagraphs('static/assets/foucault.txt');
+
+
+let textFileUrl = localStorage.getItem('currentBook') || don;
+
 let paragraphs = [];
 let sentences = [];
 let currentParagraphIndex = 0;
@@ -17,105 +27,96 @@ let targetSentence = '';
 let currentCharIndex = 0;
 let userProgress = [];
 let gamePaused = false;
-let bookId = null; // Initialize bookId to null
-
-// Function to fetch the list of books
-async function fetchBooks() {
-    console.log('Fetching list of books...');
-    try {
-        const response = await fetch('/books');
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        books = await response.json();
-        console.log('Books fetched successfully:', books);
-        populateBookList();
-    } catch (error) {
-        console.error('Error fetching book list:', error);
-    }
-}
-
-// Function to populate book list
-function populateBookList() {
-    console.log('Populating book list...');
-    if (!bookList) {
-        console.error('Book list element not found.');
-        return;
-    }
-    bookList.innerHTML = books.map(book => `
-        <li class="book-option" data-url="${book.text_url}" data-id="${book.id}">
-            <img src="${book.image_url}" alt="${book.title}">
-        </li>
-    `).join('');
-    console.log('Book list populated.');
-}
 
 // Function for selecting the book
 function selectBook(url) {
-    console.log(`Selecting book with URL: ${url}`);
     const title = document.getElementById('title');
     const author = document.getElementById('author');
-    const selectedBook = books.find(book => book.text_url === url);
-    bookId = selectedBook ? selectedBook.id : null; // Ensure bookId is set
-    console.log(bookId);
-    if (selectedBook) {
-        title.textContent = selectedBook.title;
-        author.textContent = `by ${selectedBook.author}`;
-        textFileUrl = url;
-        localStorage.setItem('currentBook', url); // Save book URL to localStorage
-        userProgress = [];
-        currentCharIndex = 0;
-        loadTextFile(); // Load the text file
-    } else {
-        console.warn('Selected book not found.');
-        title.textContent = 'Unknown Book';
-        author.textContent = '';
+
+    console.log("Text file URL:", url);
+    console.log("Available books:", don, nanking, ninety, satre, foucault);
+
+    switch (url) {
+        case don:
+            title.textContent = 'Don Quixote';
+            author.textContent = 'by Miguel de Cervantes';
+            break;
+        case nanking:
+            title.textContent = 'The Rape of Nanking';
+            author.textContent = 'by Iris Chang';
+            break;
+        case ninety:
+            title.textContent = '1984';
+            author.textContent = 'by George Orwell';
+            break;
+        case satre:
+            title.textContent = 'Existentialism Is a Humanism';
+            author.textContent = 'by Jean-Paul Sartre';
+            break;
+        case foucault:
+            title.textContent = ' Discipline and Punush ';
+            author.textContent = 'by Michel Foucault ';
+            break;
+        default:
+            title.textContent = 'Unknown Book';
+            author.textContent = '';
+            break;
     }
-}
+
+    textFileUrl = url; // Store URL globally
+    
+    console.log("Selected title:", title.textContent);
+    console.log("Selected author:", author.textContent);
+    currentCharIndex = 0;
+    loadTextFile().then(() => {
+        loadProgress(); // Load progress after the text file is loaded
+    });}
+
 
 // Function to convert multiple paragraphs into a single large paragraph
 async function consolidateParagraphs(url) {
-    console.log(`Consolidating paragraphs from URL: ${url}`);
     try {
         const response = await fetch(url);
         const text = await response.text();
-        return text.replace(/\n\s*\n/g, ' ').trim();
+
+        // Replace paragraph breaks with a single space to merge into one paragraph
+        const singleParagraph = text.replace(/\n\s*\n/g, ' ').trim();
+
+        console.log('Consolidated text:', singleParagraph);
+        return singleParagraph;
     } catch (error) {
         console.error('Error fetching or processing text file:', error);
         return '';
     }
 }
 
+
+
+
 // Function to normalize text
 function normalizeText(text) {
-    console.log('Normalizing text...');
     return text
         .replace(/’/g, "'")
         .replace(/“/g, '"')
         .replace(/—/g, '-')
         .replace(/  /g, ' ')
         .replace(/”/g, '"')
-        .replace(/‘/g, "'");
+        .replace(/‘/g, "'")
 }
 
 // Function to load the text file
 async function loadTextFile() {
-    console.log(`Loading text file from URL: ${textFileUrl}`);
+    console.log('Loading text file from:', textFileUrl);
+    
     try {
         const response = await fetch(textFileUrl);
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
         const text = await response.text();
-        paragraphs = text.split('\n\n').filter(paragraph => paragraph.trim() !== '');
-        console.log('Text file loaded and paragraphs split:', paragraphs);
-
-        if (paragraphs.length > 0) {
-            splitIntoSentences(paragraphs[currentParagraphIndex]);
-            displaySentence(sentences[currentSentenceIndex]);
-        }
-
-        await loadProgress();
+        paragraphs = text.split('\n\n');
+        console.log('Paragraphs loaded:', paragraphs);
+        await loadProgress(); // Ensure progress is loaded after paragraphs are loaded
+        splitIntoSentences(paragraphs[currentParagraphIndex]); // Split sentences for the current paragraph
+        displaySentence(sentences[currentSentenceIndex]); // Display the current sentence
+        console.log("loadtextfile-------->",sentences[currentSentenceIndex]); 
     } catch (error) {
         console.error('Error loading text file:', error);
         targetSentenceElement.textContent = 'Error loading text file.';
@@ -124,26 +125,29 @@ async function loadTextFile() {
 
 // Function to split paragraph into sentences
 function splitIntoSentences(paragraph) {
-    console.log('Splitting paragraph into sentences...');
-    const sentenceRegex = /[^.!?]*[.!?]/g;
+    const sentenceRegex = /[^.!?]*[.!?]/g; // Regex to split by sentences
     sentences = normalizeText(paragraph.trim()).match(sentenceRegex) || [normalizeText(paragraph.trim())];
-    console.log('Sentences split:', sentences);
+    console.log('Sentences:', sentences); // Log sentences to verify
 }
 
 // Function to initialize the game
 function initializeGame() {
-    console.log('Initializing game...');
     document.addEventListener('keydown', handleKeyPress);
+    console.log('Game initialized.');
 }
 
 // Function to handle key press events
 function handleKeyPress(event) {
-    if (gamePaused) return;
+    if (gamePaused) return; // Skip key press handling if the game is paused
 
-    console.log(`Handling key press: ${event.key}`);
+    console.log('Key pressed:', event.key);
+
     if (event.key.length === 1) {
         const key = event.key;
         const targetChar = targetSentence[currentCharIndex];
+
+        console.log('Target character:', targetChar);
+        console.log('Current character index:', currentCharIndex);
 
         if (currentCharIndex < targetSentence.length) {
             if (key === targetChar) {
@@ -153,7 +157,7 @@ function handleKeyPress(event) {
                 userProgress[currentCharIndex] = 'incorrect';
             }
 
-            saveProgress();
+            saveProgress(); // Save user's progress
             updateDisplay();
 
             if (currentCharIndex === targetSentence.length && userProgress.every(status => status === 'correct')) {
@@ -180,16 +184,21 @@ function handleKeyPress(event) {
     } else if (event.key === 'Backspace') {
         if (currentCharIndex > 0) {
             currentCharIndex--;
-            userProgress[currentCharIndex] = null;
-            saveProgress();
+            userProgress[currentCharIndex] = null; // Clear the status of the character
+            saveProgress(); // Save user's progress
             updateDisplay();
         }
     }
 }
 
 // Function to update the display
+
 function updateDisplay() {
-    console.log('Updating display...');
+    if (!targetSentence || !userProgress) {
+        console.error('Target sentence or user progress is undefined.');
+        return;
+    }
+
     const displayText = targetSentence.split('').map((char, i) => {
         if (userProgress[i] === 'correct') {
             return `<span class="correct">${char}</span>`;
@@ -202,129 +211,136 @@ function updateDisplay() {
         }
     }).join('');
     
+    console.log('Updating display');
+    console.log('Target sentence:', targetSentence);
+    console.log('User progress:', userProgress);
     sentenceDisplay.innerHTML = displayText;
 }
 
 // Function to save user's progress
-async function saveProgress() {
-    if (!bookId) {
-        console.warn('Book ID is not set. Cannot save progress.');
-        return;
-    }
+function saveProgress() {
+    console.log('Saving progress:', {
+        paragraphIndex: currentParagraphIndex,
+        sentenceIndex: currentSentenceIndex,
+        charIndex: currentCharIndex,
+        userProgress: userProgress,
+        book: textFileUrl
+    });
 
-    const progressData = {
-        user_id: userId, // Assuming userId is available in the global scope or needs to be set
-        book_id: bookId,
-        paragraph_index: currentParagraphIndex,
-        sentence_index: currentSentenceIndex,
-        char_index: currentCharIndex,
-        user_progress: userProgress // Ensure this is serialized
-    };
-
-    console.log('Saving progress:', progressData);
-
-    try {
-        const response = await fetch('/save_progress', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(progressData),
-        });
-
-        if (!response.ok) {
-            throw new Error('Failed to save progress.');
+    fetch('/save_progress', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCookie('csrf_token') // Ensure CSRF protection if required
+        },
+        body: JSON.stringify({
+            user_id: userId,
+            book: textFileUrl, // Make sure this matches the backend field name
+            paragraphIndex: currentParagraphIndex,
+            sentenceIndex: currentSentenceIndex,
+            charIndex: currentCharIndex,
+            userProgress: userProgress
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.error) {
+            console.error('Server returned an error:', data.error);
+        } else {
+            console.log('Progress saved:', data);
         }
-
-        console.log('Progress saved successfully.');
-    } catch (error) {
-        console.error('Server returned an error:', error.message);
-    }
+    })
+    .catch(error => {
+        console.error('Error saving progress:', error);
+    });
 }
-
-
-
-
 
 // Function to load user's progress
 async function loadProgress() {
-    if (!bookId) {
-        console.warn('Book ID is not set. Cannot load progress.');
-        return;
-    }
-
-    console.log('Loading progress for book ID:', bookId);
+    console.log('Loading progress for book:', textFileUrl);
 
     try {
-        const url = `/load_progress?book_id=${encodeURIComponent(bookId)}`;
-        const response = await fetch(url);
+        const response = await fetch(`/load_progress?book=${encodeURIComponent(textFileUrl)}`);
 
+        // Check if the response is not JSON
         if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+            const errorText = await response.text();
+            console.error('Server returned an error:', errorText);
+            throw new Error('Error loading progress');
         }
 
         const data = await response.json();
-        console.log('Loaded progress data:', data);
+        console.log('Progress data received:', data);
 
-        if (data.length > 0) {
+        if (data && data.length > 0) {
             const latestProgress = data
-                .filter(p => p.paragraph_index === currentParagraphIndex)
-                .sort((a, b) => b.sentence_index - a.sentence_index)[0];
+                .filter(p => p.paragraphIndex === currentParagraphIndex)
+                .sort((a, b) => b.sentenceIndex - a.sentenceIndex)[0];
 
             if (latestProgress) {
-                currentParagraphIndex = latestProgress.paragraph_index || 0;
-                currentSentenceIndex = latestProgress.sentence_index || 0;
-                currentCharIndex = latestProgress.char_index || 0;
-
-                try {
-                    userProgress = latestProgress.user_progress ? latestProgress.user_progress : [];
-                } catch (e) {
-                    console.error('Error parsing user_progress:', e);
-                    userProgress = [];
-                }
+                currentParagraphIndex = latestProgress.paragraphIndex || 0;
+                currentSentenceIndex = latestProgress?.sentenceIndex ?? 0;
+                currentCharIndex = latestProgress.charIndex || 0;
+                userProgress = latestProgress.userProgress || [];
             }
+        } else {
+            console.log('No progress data found');
+            currentParagraphIndex = 0;
+            currentSentenceIndex = 0;
+            currentCharIndex = 0;
+            userProgress=[];
         }
 
-        splitIntoSentences(paragraphs[currentParagraphIndex]);
+        // No need to call splitIntoSentences again if it's done in loadTextFile
         displaySentence(sentences[currentSentenceIndex]);
-        initializeGame();
-
+        console.log("from load progress ---------->", sentences[currentSentenceIndex])
     } catch (error) {
         console.error('Error loading progress:', error);
     }
 }
 
-
-
-
-
-// Function to get the book ID from URL
-function getBookIdFromUrl(url) {
-    console.log(`Extracting book ID from URL: ${url}`);
-    const book = books.find(b => b.text_url === url);
-    return book ? book.id : null;
-}
-
-// Function to display the current sentence
+// Function to display the sentence
 function displaySentence(sentence) {
-    console.log(`Displaying sentence: ${sentence}`);
-    targetSentence = sentence || '';
-    currentCharIndex = 0;
+    console.log('Displaying sentence:', sentence);
+    if (!sentence) {
+        console.error('No sentence provided to display.');
+        targetSentenceElement.textContent = 'No sentence available.';
+        return;
+    }
+    targetSentence = sentence.trim();
+    userProgress = new Array(targetSentence.length).fill(null);
+    currentCharIndex = 0; // Reset the character index
     updateDisplay();
 }
 
-// Function to clear progress
+// Function to clear progress (if needed)
 function clearProgress() {
-    console.log('Clearing progress...');
-    userProgress = [];
-    currentParagraphIndex = 0;
-    currentSentenceIndex = 0;
-    currentCharIndex = 0;
+    // Implement functionality if needed
 }
 
-// Initialize on DOMContentLoaded
+// Function to get a cookie value
+function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+}
+
+// Initialize the game
+function initialize() {
+    selectBook(textFileUrl); // Ensure the correct book is selected
+
+    // Fetch the text file
+    fetch(textFileUrl)
+        .then(response => response.text())
+        .then(text => {
+            paragraphs = text.split('\n\n');
+            splitIntoSentences(paragraphs[currentParagraphIndex]);
+            displaySentence(sentences[currentSentenceIndex]);
+        })
+        .catch(error => console.error('Error loading text file:', error));
+}
+
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('Document loaded, initializing...');
     const modal = document.getElementById('bookModal');
     const closeModalBtn = document.getElementsByClassName('close')[0];
     const content = document.querySelector('.main');
@@ -332,63 +348,85 @@ document.addEventListener('DOMContentLoaded', () => {
     const footer = document.querySelector('.footer');
     const bookLogoBtn = document.getElementById("book-logo");
 
+    // Pause the game
     function pauseGame() {
-        console.log('Pausing game...');
         document.removeEventListener('keydown', handleKeyPress);
         gamePaused = true;
+        console.log('Game paused');
     }
 
+    // Resume the game
     function resumeGame() {
-        console.log('Resuming game...');
         document.addEventListener('keydown', handleKeyPress);
         gamePaused = false;
     }
 
+    // Show the modal
     bookLogoBtn.onclick = () => {
         pauseGame();
         setTimeout(() => {
             modal.style.display = 'block';
             modal.classList.add('show');
+
             if (content && nav && footer) {
-                content.classList.add('blur-background');
-                nav.classList.add('blur-background');
-                footer.classList.add('blur-background');
+                content.classList.add('blur-background'); // Apply blur effect
+                nav.classList.add('blur-background'); 
+                footer.classList.add('blur-background'); 
             }
-        }, 300);
+        }, 60);  // Slight delay to allow CSS transition
     };
 
-    closeModalBtn.onclick = () => {
-        console.log('Closing modal...');
+    // Handle book selection
+    bookList.addEventListener('click', (event) => {
+        const bookOption = event.target.closest('.book-option');
+        if (bookOption) {
+            const selectedUrl = bookOption.getAttribute('data-url');
+            console.log("Clicked book URL:", selectedUrl);
+            localStorage.setItem('currentBook', selectedUrl); // Save to localStorage
+            selectBook(selectedUrl); // Update the book selection
+            console.log('Book selected:', selectedUrl);
+            hideBookMenu();
+        }
+        resumeGame();
+    });
+
+    // Hide the book menu
+    function hideBookMenu() {
+        content.classList.remove('blur-background');  
+        nav.classList.remove('blur-background');  
+        footer.classList.remove('blur-background');  
         modal.classList.remove('show');
-        setTimeout(() => {
-            modal.style.display = 'none';
-            if (content && nav && footer) {
-                content.classList.remove('blur-background');
-                nav.classList.remove('blur-background');
-                footer.classList.remove('blur-background');
-            }
-            resumeGame();
-        }, 300);
-    };
+        modal.style.display = 'none';
+    }
 
-    bookList.addEventListener('click', event => {
-        if (event.target.closest('.book-option')) {
-            const url = event.target.closest('.book-option').dataset.url;
-            console.log('Book option clicked, URL:', url);
-            selectBook(url);
-            modal.classList.remove('show');
-            setTimeout(() => {
-                modal.style.display = 'none';
-                if (content && nav && footer) {
-                    content.classList.remove('blur-background');
-                    nav.classList.remove('blur-background');
-                    footer.classList.remove('blur-background');
-                }
-                resumeGame();
-            }, 300);
+    // Close the modal on 'Escape' key press
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && modal.style.display === 'block') {
+            hideBookMenu();
+            resumeGame(); // Re-initialize the game to resume listening for keypresses
         }
     });
 
-    fetchBooks(); // Fetch the list of books
-    initializeGame(); // Initialize the game mechanics
+    // Close the modal on close button click
+    closeModalBtn.onclick = () => {
+        setTimeout(() => {
+            hideBookMenu();
+        }, 60);
+        resumeGame(); 
+    };
+
+    // Close the modal if clicking outside of it
+    window.onclick = (event) => {
+        if (event.target === modal) {
+            setTimeout(() => {
+                hideBookMenu(); 
+            }, 60);
+            resumeGame(); 
+        }
+    };
+
+    resumeGame(); // Initialize the game
+    initialize(); // Ensure the game initializes with the correct book
 });
+
+
