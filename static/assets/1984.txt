@@ -72,7 +72,6 @@ bombs had cleared a larger patch and there had sprung up sordid colonies
 of wooden dwellings like chicken-houses? But it was no use, he could not
 remember: nothing remained of his childhood except a series of bright-lit
 tableaux occurring against no background and mostly unintelligible.
-
 The Ministry of Truth--Minitrue, in Newspeak [Newspeak was the official
 language of Oceania. For an account of its structure and etymology see
 Appendix.]--was startlingly different from any other object in sight. It
@@ -81,11 +80,9 @@ up, terrace after terrace, 300 metres into the air. From where Winston
 stood it was just possible to read, picked out on its white face in
 elegant lettering, the three slogans of the Party:
 
-
   WAR IS PEACE
   FREEDOM IS SLAVERY
   IGNORANCE IS STRENGTH
-
 
 The Ministry of Truth contained, it was said, three thousand rooms above
 ground level, and corresponding ramifications below. Scattered about London

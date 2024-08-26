@@ -43,63 +43,47 @@
     </div>
 
     <div class="main">
-        <!-- <div id="book-selection">
-            <p>Choose a Book:</p>
-            <div id="book-details">
-                <p id="title">Select a Book</p>
-                <p id="author"></p>
-            </div>
-        </div> -->
         <p id="target-sentence"></p><br>
         <p id="sentence-display"></p>
+
+        <!-- Book Submission Form -->
     </div>
 
     <div class="footer">
-            <div id="book-info">
-                <div id="title"></div>
-                <div id="author"></div>
-            </div>   
-            <div class="zen-logo">
-                <span id="zen" class="material-symbols-outlined">
-                    do_not_disturb_on
-                    </span>
-            </div >
-            <div id="book-details">
-                <span id="book-logo" class="material-symbols-outlined icon-hover">
-                    <span class="book_2">book_2</span>
-                    <span class="book_5">book_5</span>
-                  </span>
-            
-            </div>
-    </div>
-<!-- Book Menu (Modal) -->
-<div id="background-blur"></div>
-
-<div id="bookModal" class="modal-book">
-    <span class="close">&times;</span>
-
-    <div id="modal-content">
-        <ul id="book-list">
-            <li class="book-option" data-url="static/assets/don.txt">
-                <img src="static/assets/images/books/don_quxiote.jpg" alt="donQuxiote" >
-            </li>
-            <li class="book-option" data-url="static/assets/nanking.txt">
-                <img src="static/assets/images/books/nanking.jpg" alt="rapeNanking" >
-            </li>
-            <li class="book-option" data-url="static/assets/1984.txt">
-                <img src="static/assets/images/books/1984.jpg" alt="ninety" >
-            </li>
-            <li class="book-option" data-url="static/assets/satre.txt">
-                <img src="static/assets/images/books/satre1.jpg" alt="satre" >
-            </li>
-            <li class="book-option" data-url="static/assets/foucault.txt">
-                <img src="static/assets/images/books/foucault.jpg" alt="satre" >
-            </li>
-        </ul>
+        <div id="book-info">
+            <div id="title"></div>
+            <div id="author"></div>
+        </div>   
+        <div class="zen-logo">
+            <span id="zen" class="material-symbols-outlined">
+                do_not_disturb_on
+            </span>
+        </div >
+        <div id="book-details">
+            <span id="book-logo" class="material-symbols-outlined icon-hover">
+                <span class="book_2">book_2</span>
+                <span class="book_5">book_5</span>
+            </span>
+        </div>
     </div>
 
-</div>
+    <!-- Book Menu (Modal) -->
+    <div id="background-blur"></div>
+
+    <div id="bookModal" class="modal-book">
+        <span class="close">&times;</span>
+
+        <div id="modal-content">
+            <ul id="book-list">
+            </ul>
+        </div>
+
+    </div>
 
     <script src="static/js/gameMechanics.js"></script>
+    <script>
+        const userId = {{ user_id }};
+    </script>
+    
 </body>
 </html>
