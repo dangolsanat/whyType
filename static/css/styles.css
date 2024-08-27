@@ -154,6 +154,18 @@ h1{
     color: rgb(100, 100, 100);
 }
 
+.bg-icons{
+display: flex;
+justify-content: space-between;
+}
+
+
+
+
+
+
+
+
 
 
 
@@ -369,6 +381,7 @@ h1{
 .blur-background {
     filter: blur(10px); /* Adjust blur intensity as needed */
     transition: filter 0.02s ease-out; /* Smooth transition for the blur effect */
+    width: max-content;
 }
 
 /* Show blur effect */
@@ -575,12 +588,15 @@ h1{
 
 
  .music-drop-menu div{
-    color: #ffffff; /* Text color */
-    padding: 6px 15px;
+    color: #cacaca; /* Text color */
+    padding: 8px 15px;
     font-size: 0.6rem;
     gap: 3px;
-    
 }
+.music-drop-menu span{
+    color: #ffffff; /* Text color */
+  }
+
 .music-drop-menu div:hover{
     background-color: rgb(190, 190, 190);
     .material-symbols-outlined{
@@ -612,7 +628,9 @@ h1{
     cursor: pointer;
  }
 
-
+#music-note{
+    font-size: 1.2rem;
+}
 
 #music-note:hover{
     color:white
@@ -632,10 +650,29 @@ h1{
     height: 20px;    
     visibility:hidden;
 }
-#canvas{
+#canvasA{
     display: none;
      z-index: -1000;
+     opacity: 0;
+     transition: opacity 0.5s ease-in-out;
  }
+
+ #canvasB{
+    display: none;
+     z-index: -1000;
+     opacity: 0;
+     transition: opacity 0.5s ease-in-out;
+ }
+
+ #canvasC{
+    display: none;
+     z-index: -100;
+     opacity: 0;
+     transition: opacity 0.5s ease-in-out;
+ }
+
+
+
 
 /* Scrolling text */
 .scrolling-text {
@@ -655,3 +692,5 @@ h1{
         transform: translateX(-100%);  /* Move to the left outside the container */
     }
 }
+
+

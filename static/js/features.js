@@ -6,35 +6,67 @@ const playPauseContainer = document.getElementById('play-pause');
 const scroll = document.getElementById('scrolling-container');
 const playtext = document.getElementById('play-text');
 const waves = document.getElementById('waves');
+const rain = document.getElementById('rain');
+const fire = document.getElementById('fire');
+ 
+canvasA.width = window.innerWidth;
+canvasA.height = window.innerHeight;
 
 waves.addEventListener('click', () => {
-    if (canvas.style.display === 'none' || canvas.style.display === '') {
-        canvas.style.display = 'block'; // Show the canvas
+    // Check if the script has already been added
+    if (canvasA.style.display === 'none' || canvasA.style.display === '') {
+        canvasA.style.display = 'block';
+        canvasA.style.opacity = 0; // Ensure it's invisible before the fade-in
+        setTimeout(() => {
+            canvasA.style.transition = 'opacity 0.3s'; // Smooth fade-in transition
+            canvasA.style.opacity = 1; 
+        }, 100); // Set to 0 to trigger transition immediately
     } else {
-        canvas.style.display = 'none'; // Hide the canvas
+        canvasA.style.transition = 'opacity 0.3s'; // Smooth fade-out transition
+        canvasA.style.opacity = 0; 
+        setTimeout(() => {
+            canvasA.style.display = 'none'; 
+        }, 300); // Match with the fade-out duration
     }
 });
-const ctxs = canvas.getContext('2d');
 
-function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    draw(); // Redraw the canvas content after resizing
-}
+rain.addEventListener('click', () => {
+    // Check if the script has already been added
+    if (canvasB.style.display === 'none' || canvasB.style.display === '') {
+        canvasB.style.display = 'block';
+        canvasB.style.opacity = 0; // Ensure it's invisible before the fade-in
+        setTimeout(() => {
+            canvasB.style.transition = 'opacity 0.3s'; // Smooth fade-in transition
+            canvasB.style.opacity = 1; 
+        }, 100); // Set to 0 to trigger transition immediately
+    } else {
+        canvasB.style.transition = 'opacity 0.3s'; // Smooth fade-out transition
+        canvasB.style.opacity = 0; 
+        setTimeout(() => {
+            canvasB.style.display = 'none'; 
+        }, 300); // Match with the fade-out duration
+    }
+});
 
-// Call the function to set the initial size of the canvas
-resizeCanvas();
 
-// Attach an event listener to handle window resizing
-window.addEventListener('resize', resizeCanvas);
+fire.addEventListener('click', () => {
+    // Check if the script has already been added
+    if (canvasC.style.display === 'none' || canvasC.style.display === '') {
+        canvasC.style.display = 'block';
+        canvasC.style.opacity = 0; // Ensure it's invisible before the fade-in
+        setTimeout(() => {
+            canvasC.style.transition = 'opacity 0.3s'; // Smooth fade-in transition
+            canvasC.style.opacity = 1; 
+        }, 100); // Set to 0 to trigger transition immediately
+    } else {
+        canvasC.style.transition = 'opacity 0.3s'; // Smooth fade-out transition
+        canvasC.style.opacity = 0; 
+        setTimeout(() => {
+            canvasC.style.display = 'none'; 
+        }, 300); // Match with the fade-out duration
+    }
+});
 
-function draw() {
-    // Your drawing code here
-    ctxs.fillStyle = 'black';
-    ctxs.fillRect(0, 0, canvas.width, canvas.height);
-
-    // Add your drawing logic here, adjusting for the new canvas size
-}
 
 
 
@@ -46,6 +78,11 @@ playPauseContainer.addEventListener('click', () => {
         pause.style.display = 'flex'; // Show pause button
         scroll.style.visibility = 'visible'; // Show pause button
         playtext.style.display = 'none';
+        canvasA.style.display = 'block';
+        setTimeout(() => {
+            canvasA.style.opacity = 1; 
+        }, 200); // Use 30 milliseconds (no "ms" suffix needed here
+
 
     } else {
         audio.pause();
@@ -53,6 +90,7 @@ playPauseContainer.addEventListener('click', () => {
         pause.style.display = 'none';  // Hide pause button
         scroll.style.visibility = 'hidden'; // Show pause button
         playtext.style.display = 'flex'; // Show pause button
+
 
     }
 });
@@ -82,7 +120,7 @@ function zenModeOn() {
         el.style.filter = 'blur(5px)';
         el.style.opacity = '0';
     });
-}
+};
 
 function zenModeOff() {
     const nav = document.querySelector('.nav');
@@ -95,7 +133,7 @@ function zenModeOff() {
         el.style.filter = 'blur(0px)';
         el.style.opacity = '100%';
     });
-}
+};
 
 zen.onclick = () => {
     const nav = document.querySelector('.nav');

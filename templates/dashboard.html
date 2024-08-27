@@ -17,7 +17,10 @@
 </head>
 
 <body>
-    <canvas id="canvas" style="position: fixed;"></canvas>
+    <canvas id="canvasA" style="position: fixed;"></canvas>
+    <canvas id="canvasB" style="position: fixed;"></canvas>
+    <canvas id="canvasC" style="position: fixed;"></canvas>
+
     <div class="nav">
         <div class="nav-left">
             <div class="user-info">
@@ -59,10 +62,16 @@
                         <input type="range" id="volume-control" min="0" max="1" step="0.01" value="1">
                     </div>
                     
-                    <div>
+                    <div class="bg-icons">
                         <span id="waves" class="material-symbols-outlined">
                             waves
                         </span>
+                        <span id="rain" class="material-symbols-outlined">
+                            cyclone
+                            </span>
+                            <span id="fire" class="material-symbols-outlined">
+                                blur_on
+                                </span>
                     </div>
 
                 </div>
@@ -152,59 +161,13 @@
 
 </div>
 <audio id="lofi-player" src="static/assets/music/nightCall.mp3"></audio>
-
-    <script src="static/js/gameMechanics.js"></script>
+<div id="scripts">
+   <script src="static/js/gameMechanics.js"></script>
     <script src="static/js/features.js"></script>
-    <script>
-        const canvas = document.getElementById('canvas');
-        const ctx = canvas.getContext('2d');
-
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-
-        const numStars = 2000;
-        const stars = [];
-        let t = 0;
-
-        function initStars() {
-            for (let i = 0; i < numStars; i++) {
-                stars.push({
-                    x: Math.random() * canvas.width,
-                    y: Math.random() * canvas.height,
-                    radius: Math.random() * 1.0,
-                    color: 'white',
-                    speed: Math.random() * 0.08 + 0.04
-                });
-            }
-        }
-
-        function drawStars() {
-            ctx.fillStyle = 'black';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-            stars.forEach(star => {
-                star.y += star.speed;
-                if (star.y > canvas.height) {
-                    star.y = 0;
-                    star.x = Math.random() * canvas.width;
-                }
-
-                ctx.beginPath();
-                ctx.arc(star.x, star.y, star.radius, 0, 2 * Math.PI);
-                ctx.fillStyle = star.color;
-                ctx.fill();
-            });
-        }
-
-        function animate() {
-
-            drawStars();
-
-            requestAnimationFrame(animate);
-        }
-
-        initStars();
-        animate();
-    </script>
+    <script src="static/js/bg.js"></script>
+    <script src="static/js/rain.js"></script>
+    <script src="static/js/fire.js"></script>
+     <script>const userId = '{{ cuser.id }}';</script>
+    </div> 
 </body>
 </html>

@@ -6,7 +6,7 @@ const bookMenu = document.getElementById('book-menu'); // Modal or dropdown
 const bookList = document.getElementById('book-list'); // List within the modal or dropdown
 const backgroundBlur = document.getElementById('background-blur');
 
-const userId = "{{ cuser.id }}";
+
 
 
 // Book URLs
