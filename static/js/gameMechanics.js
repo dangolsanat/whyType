@@ -2,8 +2,8 @@
 const sentenceDisplay = document.getElementById('sentence-display');
 const targetSentenceElement = document.getElementById('target-sentence');
 const bookDetails = document.getElementById('book-details');
-const bookMenu = document.getElementById('book-menu'); // Modal or dropdown
-const bookList = document.getElementById('book-list'); // List within the modal or dropdown
+const bookMenu = document.getElementById('book-menu');  
+const bookList = document.getElementById('book-list');  
 const backgroundBlur = document.getElementById('background-blur');
 
 

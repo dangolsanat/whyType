@@ -43,7 +43,7 @@ h1{
 .nav-left, .nav-right {
     display: flex;
     align-items: center;
-    gap: 50px;
+    gap: 30px;
 }
 
 .user-name{
@@ -549,6 +549,7 @@ justify-content: space-between;
 .player {
     position: relative;
     display: inline-block;
+    margin-top: 5px;
 }
 
 /* Style for the music note icon */

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>whyType</title>
+        <!-- google import -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@40,400,0,0" />
+
+    <!-- local styesheet -->
+    <link rel="stylesheet" href="static/css/styles.css">
+    
+
+</head>
+<body>
+        <!-- canvas for background animation -->
+    <canvas id="canvasA" style="position: fixed;"></canvas>
+    <canvas id="canvasB" style="position: fixed;"></canvas>
+    <canvas id="canvasC" style="position: fixed;"></canvas>
+
+
+    <div class="nav">
+        <div class="nav-left">
+            <div class="user-info">
+                <span class="material-symbols-outlined logo" style="font-size: 4rem;">
+                    keyboard_keys 
+                    <span class="logo-text">whyType</span>
+                </span>
+                
+            </div>
+
+        </div>
+        <div class="nav-right">
+            <div class="player">
+                <span id="music-note" class="material-symbols-outlined">
+                    music_note
+                </span>
+                <div class="music-drop-menu">
+                    
+                    <div class="play-pause" id="play-pause"> 
+                        <span id="play_logo" class="material-symbols-outlined">
+                            play_circle
+                        </span>
+                        <span id="pause_logo" class="material-symbols-outlined" style="display: none;">
+                            pause_circle
+                        </span>
+                            <span id="play-text">
+                                play
+                            </span>
+                            <span id="scrolling-container" >
+                                <span class="scrolling-text">
+                                    now playing: Kavinsky - night call instrumental (slowed)
+                                </span>
+                            </span>
+
+                    </div>
+
+                    <div class="volume-control" style="display: flex;align-items: center;">
+                        <span class="material-symbols-outlined">
+                            volume_up
+                        </span>
+                        <input type="range" id="volume-control" min="0" max="1" step="0.01" value="1">
+                    </div>
+                    
+                    <div class="bg-icons">
+                        <span id="waves" class="material-symbols-outlined">
+                            waves
+                        </span>
+                        <span id="rain" class="material-symbols-outlined">
+                            cyclone
+                            </span>
+                            <span id="fire" class="material-symbols-outlined">
+                                blur_on
+                                </span>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div class="user-info">
+                <span class="user-name"> monkeyTemple   
+                    <span class="material-symbols-outlined">account_circle</span>          
+                    <div class="dropdown-menu">
+                        <a href="">
+                            <span class="material-symbols-outlined">person</span>User profile</a>
+                        <a href="">
+                            <span class="material-symbols-outlined">settings</span>Settings</a>
+                        <a href="">
+                            <span class="material-symbols-outlined">logout</span>Logout</a>
+                    </div>
+                </span>
+            </div>
+
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="main">
+        <p id="target-sentence">Loading...</p><br>
+        <p id="sentence-display"></p>
+    </div>
+
+    <div class="footer">
+        <div id="book-info">
+            <div id="title"></div>
+            <div id="author"></div>
+        </div>   
+        
+        <div class="mid_menu">
+
+            <div class="zen-logo">
+                <span id="zen" class="material-symbols-outlined">
+                    do_not_disturb_on
+                    </span>
+            </div >
+        </div>
+
+
+
+        <div id="book-details">
+            <span id="book-logo" class="material-symbols-outlined icon-hover">
+                <span class="book_2">book_2</span>
+                <span class="book_5">book_5</span>
+              </span>
+        </div>
+</div>
+
+<div id="background-blur"></div>
+
+<div id="bookModal" class="modal-book">
+    <span class="close">&times;</span>
+
+    <div id="modal-content">
+        <ul id="book-list">
+            <li class="book-option" data-url="static/assets/don.txt">
+                <img src="static/assets/images/books/don_quxiote.jpg" alt="donQuxiote" >
+            </li>
+            <li class="book-option" data-url="static/assets/nanking.txt">
+                <img src="static/assets/images/books/nanking.jpg" alt="rapeNanking" >
+            </li>
+            <li class="book-option" data-url="static/assets/1984.txt">
+                <img src="static/assets/images/books/1984.jpg" alt="ninety" >
+            </li>
+            <li class="book-option" data-url="static/assets/satre.txt">
+                <img src="static/assets/images/books/satre1.jpg" alt="satre" >
+            </li>
+            <li class="book-option" data-url="static/assets/foucault.txt">
+                <img src="static/assets/images/books/foucault.jpg" alt="satre" >
+            </li>
+        </ul>
+    </div>
+
+</div>
+<audio id="lofi-player" src="static/assets/music/nightCall.mp3"></audio>
+
+    <script src="static/js/justType.js"></script>
+    <script src="static/js/features.js"></script>
+    <script src="static/js/bg.js"></script>
+    <script src="static/js/rain.js"></script>
+    <script src="static/js/fire.js"></script>
+</body>
+</html>
